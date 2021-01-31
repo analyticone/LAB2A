@@ -20,7 +20,7 @@ android {
 
 ext {
     appCompatVersion = '1.2.0'
-    glideVersion = '4.9.0'
+    glideVersion = '4.11.0'
     recyclerViewVersion = '1.1.0'
     annotationProcessorVersion = '1.1.0'
     asyncHttpClientVersion = '2.1.1'
@@ -34,4 +34,10 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     annotationProcessor "androidx.annotation:annotation:$annotationProcessorVersion"
+
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
+
 }

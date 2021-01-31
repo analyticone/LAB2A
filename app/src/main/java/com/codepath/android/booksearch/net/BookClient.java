@@ -12,6 +12,7 @@ public class BookClient {
 
     public BookClient() {
         this.client = new AsyncHttpClient();
+        client.setTimeout(20); // Increase default timeout
     }
 
     private String getApiUrl(String relativeUrl) {
@@ -28,3 +29,4 @@ public class BookClient {
         }
     }
 }
+// https://openlibrary.org/search.json?q=

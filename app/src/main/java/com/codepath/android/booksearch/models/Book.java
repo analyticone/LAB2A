@@ -1,17 +1,24 @@
 package com.codepath.android.booksearch.models;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
+@Parcel
 public class Book {
-    private String openLibraryId;
-    private String author;
-    private String title;
+     String openLibraryId;
+     String author;
+     String title;
+     String publisher;
+     String publishYear;
+
+    public Book(){}
 
     public String getOpenLibraryId() {
         return openLibraryId;
@@ -25,6 +32,23 @@ public class Book {
         return author;
     }
 
+    public String getPublisher() {
+        return "Published By\n" + publisher;
+    }
+
+    public String getPublishYear() {
+        return publishYear;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "openLibraryId='" + openLibraryId + '\'' +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
     // Get book cover from covers API
     public String getCoverUrl() {
         return "https://covers.openlibrary.org/b/olid/" + openLibraryId + "-L.jpg?default=false";
@@ -36,6 +60,7 @@ public class Book {
         try {
             // Deserialize json into object fields
             // Check if a cover edition is available
+            Log.d("Book", jsonObject.toString());
             if (jsonObject.has("cover_edition_key")) {
                 book.openLibraryId = jsonObject.getString("cover_edition_key");
             } else if(jsonObject.has("edition_key")) {
@@ -44,6 +69,9 @@ public class Book {
             }
             book.title = jsonObject.has("title_suggest") ? jsonObject.getString("title_suggest") : "";
             book.author = getAuthor(jsonObject);
+            book.publisher = jsonObject.getJSONArray("publisher").getString(0);
+            book.publishYear = jsonObject.getString("first_publish_year");
+            Log.d("Book", "Year Published: " + book.publishYear);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
