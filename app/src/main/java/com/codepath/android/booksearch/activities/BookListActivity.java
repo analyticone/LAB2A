@@ -21,13 +21,17 @@ import com.codepath.android.booksearch.models.Book;
 import com.codepath.android.booksearch.net.BookClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.Response;
 
 
 public class BookListActivity extends AppCompatActivity {
@@ -74,6 +78,7 @@ public class BookListActivity extends AppCompatActivity {
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
     private void fetchBooks(String query) {
+        Log.d(BookListActivity.class.getSimpleName(), "fetch");
         client = new BookClient();
         client.getBooks(query, new JsonHttpResponseHandler() {
             @Override
@@ -104,6 +109,18 @@ public class BookListActivity extends AppCompatActivity {
                 // Handle failed request here
                 Log.e(BookListActivity.class.getSimpleName(),
                         "Request failed with code " + statusCode + ". Response message: " + responseString);
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                super.onFailure(call, e);
+                Log.e(BookListActivity.class.getSimpleName(),e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                super.onResponse(call, response);
+                Log.d(BookListActivity.class.getSimpleName(), "onResponse - unexpected:" + response);
             }
         });
     }
