@@ -54,20 +54,13 @@ public class BookListActivity extends AppCompatActivity {
         bookAdapter.setOnItemClickListener(new BookAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Toast.makeText(
-                        BookListActivity.this,
-                        "An item at position " + position + " clicked!",
-                        Toast.LENGTH_SHORT).show();
-
                 // Handle item click here:
                 // Create Intent to start BookDetailActivity
                 Intent i = new Intent(BookListActivity.this, BookDetailActivity.class);
                 // Get Book at the given position
                 // Pass the book into details activity using extras
                 i.putExtra("book", Parcels.wrap(abooks.get(position)));
-
                 startActivity(i);
-
             }
         });
 
@@ -76,8 +69,6 @@ public class BookListActivity extends AppCompatActivity {
 
         // Set layout manager to position the items
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
-
-
     }
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
